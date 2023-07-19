@@ -45,7 +45,7 @@ high_fst<-Males_Females_Fst[Males_Females_Fst$WEIGHTED_FST>0.1,]
 
 unique(high_fst$CHROM)
 
-#####GEO Chromosome Aligment
+#####GEO Chromosome Alignment
 ##Males vs Females Fst, Autosomes
 Males_Females_Autosomes_Fst <- read.table("geo_alignment/Males_vs_Females_Autosomes.windowed.weir.fst", header=T)
 
@@ -62,4 +62,8 @@ Males_Females_W_Fst <- read.table("geo_alignment/Males_vs_Females_W_Chr.windowed
 
 ggplot(data = Males_Females_W_Fst, aes(x=1:nrow(Males_Females_W_Fst), y=WEIGHTED_FST)) + geom_point()
 
+###MYWA with GEO W Alignment
 
+Males_Females_Autosomes_Fst <- read.table("mywa_geo_alignment/males_vs_females_autosomes.windowed.weir.fst", header=T)
+
+ggplot(data = Males_Females_Autosomes_Fst, aes(x=1:nrow(Males_Females_Autosomes_Fst), y=WEIGHTED_FST)) + geom_point()
