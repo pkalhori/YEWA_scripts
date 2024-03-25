@@ -20,4 +20,4 @@ output=${pop}_${window_size}
 
 cd $outdir
 
-vcftools --gzvcf $vcf --weir-fst-pop $pop1_file --weir-fst-pop $pop2_file --fst-window-size $window_size --fst-window-step $window_step --out $output
+vcftools --gzvcf $vcf --weir-fst-pop $pop_file --weir-fst-pop $pop2_file --fst-window-size $window_size --fst-window-step $window_step --out $output

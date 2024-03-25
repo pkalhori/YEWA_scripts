@@ -9,7 +9,7 @@
 #conda activate elprep
 
 # set the directory path
-dir_path=/home/pkalhori/fastp/2023-11-05
+dir_path=/home/pkalhori/fastp/2023-11-06
 bwa_dir=/home/pkalhori/bwa_yewa_alignment
 logdir=/home/pkalhori/logs/picard
 mkdir -p $logdir
@@ -30,7 +30,7 @@ do
   # loop through each file in the batch
 for bird in $(ls --ignore=A5 $dir_path | head -n $((batch_size * (batch + 1))) | tail -n $batch_size); do
   # launch a separate process for each file
-id=${bird}_CKDL230032797-1A_HGL2FDSX7_L3_mywa_geo
+id=${bird}_CKDL230032797-1A_HGNKFDSX7_L2_mywa_geo
 #CKDL220033076-1A_HTH3NDSX5_L3_mywa_geo
 cd ${bwa_dir}/${bird}
 
@@ -39,7 +39,7 @@ output=${bwa_dir}/$bird/${id}_readgroups.sam
 
 #nohup picard AddOrReplaceReadGroups -I $input -O $output -LB ${bird}_2022 -PL ILLUMINA -PU 550:HTH3NDSX5:3 -SM $bird > ${logdir}/${bird}.output.txt 2>&1 &
 
-nohup gatk AddOrReplaceReadGroups -I $input -O $output -LB ${bird}_2023 -PL ILLUMINA -PU 865:HGL2FDSX7:3 -SM $bird > ${logdir}/${bird}.output.txt 2>&1 &
+nohup gatk AddOrReplaceReadGroups -I $input -O $output -LB ${bird}_2023 -PL ILLUMINA -PU 872:HGNKFDSX7:2 -SM $bird > ${logdir}/${bird}.output.txt 2>&1 &
 #nohup COMMAND > output_file 2>&1 &
 
 done

@@ -1,3 +1,5 @@
+
+
 #!/bin/bash
 
 source ~/.bashrc
@@ -18,12 +20,10 @@ done < ~/yewa_contigs_list.txt
 
 contig_list=`echo ${all_contigs[*]}`
 
+wd=/home/pkalhori/mpileup/calls_yewa_alignment_reseq
 
-today_date=$(date +'%Y-%m-%d')
-ref_fasta=/home/pkalhori/reference_genomes/yewa_reference_genome/ncbi_dataset/data/GCA_024362935.1/GCA_024362935.1_bSetPet1.0.p_genomic.fna
-all_bams=/home/pkalhori/mpileup/all_bams_yewa_alignment.list
 # set the batch size
-batch_size=30
+batch_size=49
 
 # get the total number of files in the directory
 #total_files=$(ls $dir_path | wc -l)
@@ -37,12 +37,15 @@ do
   # loop through each file in the batch
 for contig in $(cat $contig_file | head -n $((batch_size * (batch + 1))) | tail -n $batch_size); do
   # launch a separate process for each file
-#mpileup -Ou -f /home/pkalhori/ncbi_dataset/data/GCA_024362935.1/GCA_024362935.1_bSetPet1.0.p_genomic.fna -r JANCRA010000001.1 -o /home/pkalhor/mpileup/chr1_test.bcf -b some_bams.list
-#bcftools mpileup -Ou -f $ref_fasta -r $contig -b $all_bams -o /home/pkalhori/mpileup/all_samples_contig_${contig}.bcf &
-bcftools mpileup -Ou -f $ref_fasta -r $contig -b $all_bams | bcftools call -m -Oz -o /home/pkalhori/mpileup/calls_yewa_alignment_reseq/all_samples_calls_contig_${contig}.vcf.gz &
+input=${wd}/all_samples_calls_contig_${contig}.vcf.gz
+output=${wd}/all_samples_calls_contig_${contig}_filtered.vcf.gz
+
+
+bcftools filter -i 'TYPE=="snp" && MIN(DP)>100 && MAX(DP)<1500 && QUAL>30' -Ou ${input}|bcftools filter -e 'F_MISSING>0.1' -Ou|bcftools view -m2 -M2 -Ou |bcftools view -q 0.05:minor -Ov|cat|perl /home/pkalhori/bin/vcf2minmq.pl 20|bcftools convert -Oz -o $output &
 
 done
   # wait for all processes in this batch to finish
 
 wait
 done
+

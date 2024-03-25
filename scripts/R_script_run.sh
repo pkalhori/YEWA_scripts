@@ -1,3 +1,3 @@
 #!/bin/bash
 
-Rscript /home/pkalhori/scripts/angsd_asso_plotting.R
+Rscript /home/pkalhori/github_repos/YEWA_scripts/scripts/lfmm_snmf.R

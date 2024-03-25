@@ -46,7 +46,7 @@ for contig in $(cat $contig_file | head -n $((batch_size * (batch + 1))) | tail 
   # launch a separate process for each file
 #mpileup -Ou -f /home/pkalhori/ncbi_dataset/data/GCA_024362935.1/GCA_024362935.1_bSetPet1.0.p_genomic.fna -r JANCRA010000001.1 -o /home/pkalhor/mpileup/chr1_test.bcf -b some_bams.list
 
-bcftools mpileup -Ou -f $ref_fasta -r $contig -b $all_bams | bcftools call -m -Oz -o /home/pkalhori/mpileup/calls_mywa_geo_alignment_reseq/all_samples_reseq_chromosome_${contig}.vcf.gz &
+bcftools mpileup -Ou -f $ref_fasta -a FORMAT/AD,FORMAT/DP,FORMAT/SP,INFO/AD -r $contig -b $all_bams | bcftools call -m -Oz -o /home/pkalhori/mpileup/calls_mywa_geo_alignment_reseq_annotated/all_samples_reseq_chromosome_${contig}.vcf.gz &
 
 #bcftools mpileup -Ou -f $ref_fasta -r $chr_id -b $all_bams | bcftools call -m -Ou -o /home/pkalhori/mpileup/calls/all_samples_calls_contig_${chr_name}.bcf &
 #echo $contig

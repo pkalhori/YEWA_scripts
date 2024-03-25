@@ -5,10 +5,8 @@ popdir=/home/pkalhori/sample_info
 
 pop=$1
 
-pop1_file=$popdir/${pop}_Highland.txt
+pop_file=$popdir/${pop}.txt
 
-
-pop2_file=$popdir/${pop}_Lowland.txt
 
 window_size=$2
 
@@ -20,4 +18,4 @@ output=${pop}_${window_size}
 
 cd $outdir
 
-vcftools --gzvcf $vcf --weir-fst-pop $pop1_file --weir-fst-pop $pop2_file --fst-window-size $window_size --fst-window-step $window_step --out $output
+vcftools --gzvcf $vcf --keep $pop_file --window-pi $window_size --window-pi-step $window_step --out $output

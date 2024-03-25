@@ -8,7 +8,7 @@ conda init bash
 
 conda activate samtools
 
-dir_path=/home/pkalhori/fastp/2023-11-05
+dir_path=/home/pkalhori/fastp/2023-11-06
 
 bwa_dir=/home/pkalhori/bwa_yewa_alignment
 today_date=$(date +'%Y-%m-%d')
@@ -28,7 +28,7 @@ do
   # loop through each file in the batch
 for bird in $(ls --ignore=A5 $dir_path | head -n $((batch_size * (batch + 1))) | tail -n $batch_size); do
 
-id=${bird}_CKDL230032797-1A_HGL2FDSX7_L3_mywa_geo
+id=${bird}_CKDL230032797-1A_HGNKFDSX7_L2_mywa_geo
 #JC105_CKDL220033076-1A_HTH3NDSX5_L3_mywa_geo_readgroups.sam
 samtools view -@ 4 -b ${bwa_dir}/${bird}/${id}_readgroups.sam > ${bwa_dir}/${bird}/${id}.bam &
 
@@ -44,7 +44,7 @@ do
   # loop through each file in the batch
 for bird in $(ls --ignore=A5 $dir_path | head -n $((batch_size * (batch + 1))) | tail -n $batch_size); do
 
-id=${bird}_CKDL230032797-1A_HGL2FDSX7_L3_mywa_geo
+id=${bird}_CKDL230032797-1A_HGNKFDSX7_L2_mywa_geo
 
 samtools sort -@ 4 ${bwa_dir}/${bird}/${id}.bam -o ${bwa_dir}/${bird}/${id}_sorted.bam &
 
@@ -60,7 +60,7 @@ do
   # loop through each file in the batch
 for bird in $(ls --ignore=A5 $dir_path | head -n $((batch_size * (batch + 1))) | tail -n $batch_size); do
 
-id=${bird}_CKDL230032797-1A_HGL2FDSX7_L3_mywa_geo
+id=${bird}_CKDL230032797-1A_HGNKFDSX7_L2_mywa_geo
 
 samtools index ${bwa_dir}/${bird}/${id}_sorted.bam &
 

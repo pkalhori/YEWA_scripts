@@ -7,7 +7,7 @@ source /home/pkalhori/bin/miniconda3/etc/profile.d/conda.sh
 conda init bash
 conda activate fastpenv
 wd=/home/pkalhori/fastp
-data_dir=/home/pkalhori/yewa_genome_data/usftp21.novogene.com/01.RawData
+data_dir=/home/pkalhori/yewa_reseq_data/usftp21.novogene.com/01.RawData
 cd $data_dir
 #samples=`ls --ignore=*Undetermined`
 #samples='JC77 JC78'
@@ -25,15 +25,15 @@ cd $wd/$rundate
 
 for bird in $samples
 do
-forward_input=${data_dir}/${bird}/${bird}_CKDL220033076-1A_HTH3NDSX5_L3_1.fq.gz
-reverse_input=${data_dir}/${bird}/${bird}_CKDL220033076-1A_HTH3NDSX5_L3_2.fq.gz
+forward_input=${data_dir}/${bird}/${bird}_CKDL230032797-1A_HGNKFDSX7_L2_1.fq.gz
+reverse_input=${data_dir}/${bird}/${bird}_CKDL230032797-1A_HGNKFDSX7_L2_2.fq.gz
 outdir=$wd/$rundate/$bird
 outfile=$wd/$rundate/$bird/${bird}_output.txt
 mkdir -p $outdir
-forward_output=${outdir}/${bird}_CKDL220033076-1A_HTH3NDSX5_L3_1_clean.fq.gz
-reverse_output=${outdir}/${bird}_CKDL220033076-1A_HTH3NDSX5_L3_2_clean.fq.gz
-html_output=${outdir}/${bird}_CKDL220033076-1A_HTH3NDSX5_L3.html
-unpaired_forward=${outdir}/${bird}_CKDL220033076-1A_HTH3NDSX5_L3_unpaired1.fq.gz
-unpaired_reverse=${outdir}/${bird}_CKDL220033076-1A_HTH3NDSX5_L3_unpaired2.fq.gz
+forward_output=${outdir}/${bird}_CKDL230032797-1A_HGNKFDSX7_L2_1_clean.fq.gz
+reverse_output=${outdir}/${bird}_CKDL230032797-1A_HGNKFDSX7_L2_2_clean.fq.gz
+html_output=${outdir}/${bird}_CKDL230032797-1A_HGL2FDSX7_L2.html
+unpaired_forward=${outdir}/${bird}_CKDL230032797-1A_HGNKFDSX7_L2_unpaired1.fq.gz
+unpaired_reverse=${outdir}/${bird}_CKDL230032797-1A_HGNKFDSX7_L2_unpaired2.fq.gz
 nohup fastp --in1 $forward_input --in2 $reverse_input --out1 $forward_output --out2 $reverse_output --unpaired1 $unpaired_forward --unpaired2 $unpaired_reverse --dedup --thread 16 --adapter_sequence=AGATCGGAAGAGCACACGTCTGAACTCCAGTCA --adapter_sequence_r2=AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT --html $html_output > $outfile 2>&1 & 
 done

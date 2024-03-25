@@ -13,7 +13,7 @@ reference_genome=/home/pkalhori/reference_genomes/yewa_reference_genome/ncbi_dat
 #reference_genome=/home/pkalhori/reference_genomes/mywa_reference_genome/ncbi_dataset/data/GCA_001746935.2/GCA_001746935.2_mywa_2.1_genomic.fna
 #reference_genome=/home/pkalhori/reference_genomes/geothlypis_reference_genome/ncbi_dataset/data/GCA_009764595.1/GCA_009764595.1_bGeoTri1.pri_genomic.fna
 #reference_genome=/home/pkalhori/reference_genomes/mywa_geo_W_reference_genome/mywa_geo_W_combined_genomic.fna
-dir_path=/home/pkalhori/fastp/2023-11-05
+dir_path=/home/pkalhori/fastp/2023-11-06
 bwa_dir=/home/pkalhori/bwa_yewa_alignment
 today_date=$(date +'%Y-%m-%d')
 logdir=/home/pkalhori/logs/${today_date}
@@ -40,9 +40,9 @@ do
 for bird in $(ls --ignore=A5 $dir_path | head -n $((batch_size * (batch + 1))) | tail -n $batch_size); do
   # launch a separate process for each file
 mkdir -p ${bwa_dir}/${bird}
-id=${bird}_CKDL230032797-1A_HGL2FDSX7_L3
+id=${bird}_CKDL230032797-1A_HGNKFDSX7_L2
 
-ionice -c 3 bwa mem -M -t 12 \
+ionice -c 3 bwa mem -M -t 8 \
 $reference_genome \
 ${dir_path}/${bird}/${id}_1_clean.fq.gz ${dir_path}/${bird}/${id}_2_clean.fq.gz \
 2> ${logdir}/bwa_${id}.err \
