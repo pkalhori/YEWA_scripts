@@ -3,13 +3,14 @@
 islands=c("isabela","santacruz","sancristobal","all_islands")
 
 
-window_size="10"
+window_size="10kb"
 date="2024-01-17"
 
 dxy_all <- data_frame()
 
 for (island in islands){
-  wd<-(paste("/home/pkalhori/pixy/mywa_geo/",date,"/",window_size,"kb_window/",island,sep=""))
+  wd<-(paste("/home/pkalhori/pixy/mywa_geo/",date,"/",window_size,"_window/",island,sep=""))
+  #dxy_files <- list.files(wd,pattern="*_dxy.txt", full.names=T)
   dxy_files <- list.files(wd,pattern="*_dxy.txt", full.names=T)
   for (file in dxy_files){
     dxy_file <- read.csv(file,sep="\t")
@@ -19,9 +20,9 @@ for (island in islands){
   
 }
 
-dxy_all <- dxy_all[dxy_all$chromosome!="CM019934.1",] %>% na.omit()
+dxy_all <- dxy_all[dxy_all$chromosome!="CM019934.1" & dxy_all$chromosome!="CM0127535.1" & dxy_all$no_sites>1500,]  %>% na.omit()
 
-dxy_all$chrOrder <- factor(dxy_all$chromosome,levels=c( "CM027507.1" ,"CM027536.1","CM027508.1" ,"CM027509.1", "CM027510.1" ,"CM027537.1","CM027511.1" ,"CM027512.1", "CM027513.1", "CM027514.1" ,"CM027515.1","CM027516.1", "CM027517.1" ,"CM027518.1" ,"CM027519.1", "CM027520.1" ,"CM027521.1", "CM027522.1", "CM027523.1" ,"CM027524.1","CM027525.1", "CM027526.1", "CM027527.1" ,"CM027528.1" ,"CM027529.1" ,"CM027530.1", "CM027531.1", "CM027532.1" ,"CM027533.1","CM027534.1", "CM027535.1"  ))
+dxy_all$chrOrder <- factor(dxy_all$chromosome,levels=c( "CM027507.1" ,"CM027536.1","CM027508.1" ,"CM027509.1", "CM027510.1" ,"CM027537.1","CM027511.1" ,"CM027512.1", "CM027513.1", "CM027514.1" ,"CM027515.1","CM027516.1", "CM027517.1" ,"CM027518.1" ,"CM027519.1", "CM027520.1" ,"CM027521.1", "CM027522.1", "CM027523.1" ,"CM027524.1","CM027525.1", "CM027526.1", "CM027527.1" ,"CM027528.1" ,"CM027529.1" ,"CM027530.1", "CM027531.1", "CM027532.1" ,"CM027533.1","CM027534.1" ))
 
 
 test <- dxy_all %>% filter(chromosome == "CM027508.1")#%>% filter(window_pos_1<50000001)
@@ -204,7 +205,7 @@ merged_all <- merge(dxy_all,depths_all)
 
 
 
-chrom <- "CM027517.1"
+chrom <- "CM027508.1"
 
 
 

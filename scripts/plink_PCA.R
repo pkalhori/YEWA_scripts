@@ -45,8 +45,8 @@ ggplot(pca_with_info,aes(x=Elevation_Values,y=PC2)) + geom_point() + geom_smooth
 
 
 #San Cristobal
-pca <- read_table("./sancristobal.eigenvec", col_names = FALSE)
-eigenval <- scan("./sancristobal.eigenval")
+pca <- read_table("./sancristobal_HWE.eigenvec", col_names = FALSE)
+eigenval <- scan("./sancristobal_HWE.eigenval")
 pca <- pca[,-1]
 # set names
 names(pca)[1] <- "ID"
@@ -55,11 +55,11 @@ pve <- data.frame(PC = 1:18, pve = eigenval/sum(eigenval)*100)
 sample_info <- read.csv("/home/pkalhori/sample_info/samples_pop_info.csv") %>% filter( Island=="San Cristobal")
 sample_info$Year <- as.factor(sample_info$Year)
 pca_with_info <- merge(sample_info, pca)
-ggplot(pca_with_info, aes(PC1, PC3, col=Elevation, shape=Elevation,label=ID)) + geom_point(size = 3)  + geom_text(nudge_x=.005, nudge_y = .001, check_overlap = F, size=1.5)
+ggplot(pca_with_info, aes(PC1, PC2, col=Elevation, shape=Elevation,label=ID)) + ggtitle("San Cristobal PCA")+ geom_point(size = 3)  + geom_text(nudge_x=.005, nudge_y = .001, check_overlap = F, size=1.5)
 
 #Isabela
-pca <- read_table("./isabela.eigenvec", col_names = FALSE)
-eigenval <- scan("./isabela.eigenval")
+pca <- read_table("./isabela_HWE.eigenvec", col_names = FALSE)
+eigenval <- scan("./isabela_HWE.eigenval")
 pca <- pca[,-1]
 # set names
 names(pca)[1] <- "ID"
@@ -68,11 +68,11 @@ pve <- data.frame(PC = 1:18, pve = eigenval/sum(eigenval)*100)
 sample_info <- read.csv("/home/pkalhori/sample_info/samples_pop_info.csv") %>% filter( Island=="Isabela")
 sample_info$Year <- as.factor(sample_info$Year)
 pca_with_info <- merge(sample_info, pca)
-ggplot(pca_with_info, aes(PC1, PC3, col=Elevation, shape=Elevation,label=ID)) + geom_point(size = 3)  + geom_text(nudge_x=.005, nudge_y = .001, check_overlap = F, size=1.5)
+ggplot(pca_with_info, aes(PC1, PC2, col=Elevation, shape=Elevation,label=ID)) + ggtitle("Isabela PCA")+ geom_point(size = 3)  + geom_text(nudge_x=.005, nudge_y = .001, check_overlap = F, size=1.5)
 
 #Santa Cruz
-pca <- read_table("./santacruz.eigenvec", col_names = FALSE)
-eigenval <- scan("./santacruz.eigenval")
+pca <- read_table("./santacruz_HWE.eigenvec", col_names = FALSE)
+eigenval <- scan("./santacruz_HWE.eigenval")
 pca <- pca[,-1]
 # set names
 names(pca)[1] <- "ID"
@@ -81,6 +81,6 @@ pve <- data.frame(PC = 1:18, pve = eigenval/sum(eigenval)*100)
 sample_info <- read.csv("/home/pkalhori/sample_info/samples_pop_info.csv") %>% filter( Island=="Santa Cruz")
 sample_info$Year <- as.factor(sample_info$Year)
 pca_with_info <- merge(sample_info, pca)
-ggplot(pca_with_info, aes(PC4, PC5, col=Elevation, shape=Elevation,label=ID)) + geom_point(size = 3)  + geom_text(nudge_x=.005, nudge_y = .001, check_overlap = F, size=1.5)
+ggplot(pca_with_info, aes(PC1, PC2, col=Elevation, shape=Elevation,label=ID)) + ggtitle("Santa Cruz PCA")+geom_point(size = 3)  + geom_text(nudge_x=.005, nudge_y = .001, check_overlap = F, size=1.5)
 
 
