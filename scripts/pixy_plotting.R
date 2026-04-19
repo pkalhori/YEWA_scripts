@@ -1,10 +1,10 @@
 #######MYWA########
 
 islands=c("isabela","santacruz","sancristobal","all_islands")
+islands="by_island"
 
-
-window_size="10kb"
-date="2024-01-17"
+window_size="50kb"
+date="2025-01-27"
 
 dxy_all <- data_frame()
 
@@ -24,8 +24,11 @@ dxy_all <- dxy_all[dxy_all$chromosome!="CM019934.1" & dxy_all$chromosome!="CM012
 
 dxy_all$chrOrder <- factor(dxy_all$chromosome,levels=c( "CM027507.1" ,"CM027536.1","CM027508.1" ,"CM027509.1", "CM027510.1" ,"CM027537.1","CM027511.1" ,"CM027512.1", "CM027513.1", "CM027514.1" ,"CM027515.1","CM027516.1", "CM027517.1" ,"CM027518.1" ,"CM027519.1", "CM027520.1" ,"CM027521.1", "CM027522.1", "CM027523.1" ,"CM027524.1","CM027525.1", "CM027526.1", "CM027527.1" ,"CM027528.1" ,"CM027529.1" ,"CM027530.1", "CM027531.1", "CM027532.1" ,"CM027533.1","CM027534.1" ))
 
+dxy_santacruz_isabella <- dxy_all %>% filter(pop1 == "SantaCruz" & pop2 == "Isabella")
+dxy_sancristobal_isabella <- dxy_all %>% filter(pop1 == "SanCristobal" & pop2 == "Isabella")
+dxy_sancristobal_santacruz <- dxy_all %>% filter(pop1 == "SanCristobal" & pop2 == "SantaCruz")
 
-test <- dxy_all %>% filter(chromosome == "CM027508.1")#%>% filter(window_pos_1<50000001)
+
 
 dxy_all[dxy_all$island=="isabela",]$island <- "Isabela"
 dxy_all[dxy_all$island=="santacruz",]$island <- "Santa Cruz"
@@ -66,10 +69,10 @@ ggplot(data=subset(dxy_all,chromosome==chrom), aes(x=position, y= avg_dxy)) + ge
 ###Fst
 
 islands=c("isabela","santacruz","sancristobal","all_islands")
+islands="by_island"
 
-
-window_size="10"
-date="2024-01-17"
+window_size="50"
+date="2025-01-27"
 
 fst_all <- data_frame() 
 for (island in islands){
@@ -83,7 +86,7 @@ for (island in islands){
   
 }
 
-fst_all <- subset(fst_all,chromosome!="CM019934.1")  %>% na.omit() 
+fst_all <- fst_all %>% subset(chromosome != "CM019934.1" | chromosome!= "CM02535.1") %>% na.omit()
 
 chroms <- unique(fst_all$chromosome)
 
@@ -140,6 +143,17 @@ names(fst_means) <- c("Island","Mean Fst", "Maximum Fst", "Std. Dev. Fst")
 fst_top <- fst_all %>% group_by(island) %>% top_frac(0.001,avg_wc_fst)
 fst_top_counts_islands <- ungroup(fst_top) %>% subset(island!="All Islands") %>% count(position) 
 fst_top_counts_all <- ungroup(fst_top)  %>% count(position) 
+
+
+fst_santacruz_isabella <- fst_all %>% filter(pop1 == "SantaCruz" & pop2 == "Isabella")
+fst_sancristobal_isabella <- fst_all %>% filter(pop1 == "SanCristobal" & pop2 == "Isabella")
+fst_sancristobal_santacruz <- fst_all %>% filter(pop1 == "SanCristobal" & pop2 == "SantaCruz")
+
+mean(fst_sancristobal_isabella$avg_wc_fst)
+mean(fst_sancristobal_santacruz$avg_wc_fst)
+mean(fst_santacruz_isabella$avg_wc_fst)
+
+
 ####Pi#####
 pi_all <- data_frame()
 
@@ -163,6 +177,9 @@ pi_all$chrOrder <- factor(pi_all$chromosome,levels=c( "CM027507.1" ,"CM027536.1"
 cbbPalette <- rep(c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7"),4)
 
 
+pi_santacruz <- pi_all %>% filter(pop == "SantaCruz")
+pi_sancristobal <- pi_all %>% filter(pop == "SanCristobal")
+pi_isabela <- pi_all %>% filter(pop == "Isabella")
 
 ggplot(data=pi_all, aes(x=window_pos_1, y= avg_pi, color=chrOrder)) + 
   geom_point(show.legend = F, cex = 0.25)  + 
@@ -181,7 +198,9 @@ ggplot(data=pi_all, aes(x=window_pos_1, y= avg_pi, color=chrOrder)) +
   scale_x_continuous(expand = c(0, 0)) +
   scale_y_continuous(expand = c(0, 0), limits = c(0,NA))
 
-
+mean(pi_isabela$avg_pi)
+mean(pi_santacruz$avg_pi)
+mean(pi_sancristobal$avg_pi)
 
 ###Depths for Windows
 

@@ -1,0 +1,39 @@
+##To generate Input files with "noindels_minGQ_minDP5_miss0.9" for each chromosome
+
+##First filter depth
+vcftools --gzvcf /home/pkalhori/Pooneh_data/${chrom}_noindels_minGQ.recode.vcf.gz --minDP 5 --recode --recode-INFO-all --out /home/pkalhori/Pooneh_data/${chrom}_noindels_minGQ_minDP5 
+
+##Then filter missingness 
+
+vcftools --vcf /home/pkalhori/Pooneh_data/${chrom}_noindels_minGQ_minDP5.recode.vcf --max-missing 0.9  --recode --recode-INFO-all --out /home/pkalhori/Pooneh_data/${chrom}_noindels_minGQ_minDP5_miss0.9
+
+
+##Mappability
+
+##create mappablity index
+genmap index -F /home/pkalhori/reference_genomes/mywa_geo_W_ref/mywa_geo_W_combined_genomic.fna -I /home/pkalhori/msmc/mappability_index
+
+##get fasta file with mappability scores
+
+genmap map -K 150 -E 2 -I /home/pkalhori/msmc/mappability_index -O /home/pkalhori/msmc/mappability_mask
+
+##the output .txt file from genmap was modified slightly to remove spaces between each position
+
+input_file = "/home/pkalhori/msmc/mappability_mask.txt"
+output_file = "/home/pkalhori/msmc/mappability_mask_modified.fa"
+
+with open(input_file, "r") as infile, open(output_file, "wb") as outfile:
+    for line in infile:
+        # Preserve headers (lines starting with '>')
+        if line.startswith(">"):
+            outfile.write(line.encode())  # Write the header as-is in binary
+        else:
+            # Remove spaces and convert the line to binary
+            binary_line = line.replace(" ", "").strip().encode()
+            outfile.write(binary_line + b"\n")
+
+###run script from msmc tools on mappability fasta, modified to mask anything with a mappability of 0
+##ouputs 1 mappablity mask per chromosome into /home/pkalhori/msmc with the filenames yewa_chr${chrom}.mask.bed.gz  
+
+python /home/pkalhori/bin/msmc-tools/makeMappabilityMask.py 
+

@@ -1,6 +1,6 @@
 library(vcfR)
 library(OutFLANK)
-vcf.path <- "/home/pkalhori/mpileup/calls_mywa_geo_alignment_reseq_annotated/all_autosomes_filtered_SNPs_HWE.vcf.gz"
+vcf.path <- "/home/pkalhori/mpileup/calls_mywa_geo_alignment_reseq_annotated/SNPs_MAF_VCFs/all_samples_autosomes_SNPs_MAF.vcf.gz"
 meta <- read.csv("/home/pkalhori/sample_info/samples_pop_info.csv")
 data <- read.vcfR(vcf.path)
 geno <- extract.gt(data)
@@ -48,15 +48,15 @@ hist(fst$FST,breaks=50)
 summary(fst$FST)
 
 fst_outflank <- fst
-island="All Islands"
+island="All"
 
 OF <- OutFLANK(fst_outflank,LeftTrimFraction=0.1,RightTrimFraction=0.1,
-               Hmin=0.1,NumberOfSamples=54,qthreshold=0.05)
+               Hmin=0.1,NumberOfSamples=54,qthreshold=0.01)
 OutFLANKResultsPlotter(OF,withOutliers=T,
                        NoCorr=T,Hmin=0.1,binwidth=0.005,
                        Zoom=F,RightZoomFraction=0.05,titletext=NULL)
 P1 <- pOutlierFinderChiSqNoCorr(fst_outflank,Fstbar=OF$FSTNoCorrbar,
-                                dfInferred=OF$dfInferred,qthreshold=0.05,Hmin=0.1)
+                                dfInferred=OF$dfInferred,qthreshold=0.01,Hmin=0.1)
 outliers <- P1$OutlierFlag==TRUE #which of the SNPs are outliers?
 table(outliers)
 
@@ -107,14 +107,15 @@ points((1:nrow(P1))[outliers],P1$FST[outliers],col="magenta")
 
 
 ###pcaadapt
-vcf.path <- "/home/pkalhori/mpileup/calls_mywa_geo_alignment_reseq_annotated/isabela_autosomes_filtered_SNPs_HWE.vcf.gz"
+vcf.path <- "/home/pkalhori/mpileup/calls_mywa_geo_alignment_reseq_annotated/SNPs_only_2025/all_autosomes_filtered_SNPs_2025.vcf.gz"
 library(pcadapt)
+library(vcfR)
 library(qvalue)
 filename <- read.pcadapt(vcf.path, type = "vcf")
 
-x <- pcadapt(input = filename, K = 10) 
+x <- pcadapt(input = filename, K = 8) 
 plot(x, option = "screeplot")
-plot(x,option="scores",pop=submeta_isabela$Elevation)
+plot(x,option="scores",pop=submeta$Island)
 plot(x,option="manhattan")
 ?plot.pcadapt
 

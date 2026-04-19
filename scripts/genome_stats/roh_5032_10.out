@@ -1,0 +1,16 @@
+no change     /home/pkalhori/bin/miniconda3/condabin/conda
+no change     /home/pkalhori/bin/miniconda3/bin/conda
+no change     /home/pkalhori/bin/miniconda3/bin/conda-env
+no change     /home/pkalhori/bin/miniconda3/bin/activate
+no change     /home/pkalhori/bin/miniconda3/bin/deactivate
+no change     /home/pkalhori/bin/miniconda3/etc/profile.d/conda.sh
+no change     /home/pkalhori/bin/miniconda3/etc/fish/conf.d/conda.fish
+no change     /home/pkalhori/bin/miniconda3/shell/condabin/Conda.psm1
+no change     /home/pkalhori/bin/miniconda3/shell/condabin/conda-hook.ps1
+no change     /home/pkalhori/bin/miniconda3/lib/python3.10/site-packages/xontrib/conda.xsh
+no change     /home/pkalhori/bin/miniconda3/etc/profile.d/conda.csh
+no change     /home/pkalhori/.bashrc
+No action taken.
+Processing CM027514.1
+VCF: /home/pkalhori/Pooneh_data/CM027514.1_noindels_minGQ_minDP5_miss0.9_SNPs.recode.vcf
+Finished CM027514.1

@@ -37,20 +37,8 @@ tw = tracy.widom(pc)
 
 plot(tw$percentage, pch = 19, col = "darkblue", cex = .8)
 gen <- read.lfmm("all_chroms_filtered_SNPs_HWE.lfmm")
-gen.imp <- apply(gen, 2, function(x) replace(x, 9, as.numeric(names(which.max(table(x))))))
 
-gen_imp_2 <- apply(gen, 2, function(x) {
-  freq_table <- table(x)
-  most_freq <- names(sort(freq_table, decreasing = TRUE)[1])
-  if (as.numeric(most_freq) == 9) {
-    second_most_freq <- names(sort(freq_table, decreasing = TRUE)[2])
-    replace(x, 9, as.numeric(second_most_freq))
-  } else {
-    replace(x, 9, as.numeric(most_freq))
-  }
-})
 
-sum(is.na(gen)) # No NAs
 
 
 #project.missing = snmf("all_chroms_filtered_SNPs_HWE.lfmm", K = 3, entropy = TRUE, repetitions = 5, project = "new")
@@ -96,4 +84,9 @@ axis(1, at = 1:length(bp$order), labels = bp$order, las=1, cex.axis = .4)
 ####using algtr
 
 library(algatr)
-ridge_results <- lfmm_run(dat.imp, env, K = 6, lfmm_method = "ridge")
+ridge_results <- lfmm_run(dat.imp, env, K = 3, lfmm_method = "ridge")
+
+select_K(gen, K_selection = "tracy_widom", criticalpoint = 2.0234) # 6
+
+# Build tables for each of our LFMM runs, displaying only significant SNPs and ordering according to effect size (B)
+lfmm_table(ridge_results$df, order = TRUE)
